@@ -10,7 +10,14 @@ local entity_names = {
   "assembling-machine-3",
   "lab",
   "solar-panel",
-  "nuclear-reactor"
+  "nuclear-reactor",
+  "inserter",
+  "fast-inserter",
+  "express-inserter",
+  "long-handed-inserter",
+  "filter-inserter",
+  "stack-inserter",
+  "stack-filter-inserter"
 }
   
 function has_value (tab, val)

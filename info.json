@@ -1,0 +1,12 @@
+{
+  "name": "ConnectableInfrastructure",
+  "version": "0.0.1",
+  
+  "title": "[Beta] Connectable Infrastructure",
+  "description": "You won't be troubled by electric poles when spread machines anymore. This mod enable electrical equipments to connect other equipments directry.",
+  
+  "author": "ryogak",
+  "contact": "https://github.com/RyogaK",
+  "dependencies": ["base"],
+  "factorio_version": "0.16"
+}

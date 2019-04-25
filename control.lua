@@ -1,24 +1,24 @@
-local entity_names = {
-  "steam-engine",
-  "steam-turbine",
-  "accumulator",
-  "electric-furnace",
-  "electric-mining-drill",
-  "radar",
-  "assembling-machine-1",
-  "assembling-machine-2",
-  "assembling-machine-3",
-  "lab",
-  "solar-panel",
-  "nuclear-reactor",
-  "inserter",
-  "fast-inserter",
-  "express-inserter",
-  "long-handed-inserter",
-  "filter-inserter",
-  "stack-inserter",
-  "stack-filter-inserter"
-}
+function target_entities() 
+  local entities = {}
+  for _, v in surface.find_entities() do
+    if v.electric_output_flow_limit ~= nil then
+      table.insert(entities, v)
+    end
+  end
+end
+
+function exist_target_entities() 
+  for _, v in surface.find_entities() do
+    if v.electric_output_flow_limit ~= nil then
+      return true
+    end
+  end
+  return false
+end
+
+function is_target(candidate)
+  return candidate.electric_output_flow_limit ~= nil
+end
   
 function has_value (tab, val)
   for index, value in ipairs(tab) do
@@ -46,13 +46,13 @@ script.on_configuration_changed(function(data)
     if pole_entities then
       -- game.print ('pole_entities '..#pole_entities)
       for j, pole_entity in pairs (pole_entities) do
-        if surface.count_entities_filtered{name=entity_names, position = pole_entity.position, limit = 1} == 0 then
+        if not exist_target_entities() then
           destroyed_poles = destroyed_poles + 1
           pole_entity.destroy()
         end
       end
     end
-    local entities = surface.find_entities_filtered{name=entity_names}
+    local entities = target_entities()
     if entities then
       -- game.print ('entities '..#entities)
       for j, entity in pairs (entities) do
@@ -93,7 +93,7 @@ function spam_poles (entity)
 end
 
 function onBuildHandler(entity) 
-  if has_value (entity_names, entity.name) then
+  if is_target(entity) then
     spam_poles (entity)
   end
 end
@@ -107,7 +107,7 @@ script.on_event(defines.events.on_robot_pre_mined, function(event)
 end)
 
 function onMinedHandler(entity) 
-  if has_value (entity_names, entity.name) then
+  if is_target(entity) then
     local surface = entity.surface
     local position = entity.position
     -- game.print ('position: '.. serpent.line (position))

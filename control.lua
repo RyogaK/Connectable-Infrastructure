@@ -1,4 +1,4 @@
-function target_entities() 
+function target_entities(surface) 
   local entities = {}
   for _, v in surface.find_entities() do
     if v.electric_output_flow_limit ~= nil then
@@ -7,7 +7,7 @@ function target_entities()
   end
 end
 
-function exist_target_entities() 
+function exist_target_entities(surface) 
   for _, v in surface.find_entities() do
     if v.electric_output_flow_limit ~= nil then
       return true
@@ -18,15 +18,6 @@ end
 
 function is_target(candidate)
   return candidate.electric_output_flow_limit ~= nil
-end
-  
-function has_value (tab, val)
-  for index, value in ipairs(tab) do
-    if value == val then
-      return true
-    end
-  end
-  return false
 end
 
 script.on_event(defines.events.on_built_entity, function(event)
@@ -46,13 +37,13 @@ script.on_configuration_changed(function(data)
     if pole_entities then
       -- game.print ('pole_entities '..#pole_entities)
       for j, pole_entity in pairs (pole_entities) do
-        if not exist_target_entities() then
+        if not exist_target_entities(surface) then
           destroyed_poles = destroyed_poles + 1
           pole_entity.destroy()
         end
       end
     end
-    local entities = target_entities()
+    local entities = target_entities(surface)
     if entities then
       -- game.print ('entities '..#entities)
       for j, entity in pairs (entities) do

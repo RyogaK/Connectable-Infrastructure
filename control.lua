@@ -21,10 +21,6 @@ function exist_target_entities(surface)
   return false
 end
 
-function is_target(candidate)
-  return candidate.electric_output_flow_limit ~= nil
-end
-
 script.on_event(defines.events.on_built_entity, function(event)
   -- game.print(event.created_entity.name)
   onBuildHandler(event.created_entity) 

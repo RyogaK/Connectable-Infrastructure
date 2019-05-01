@@ -1,12 +1,12 @@
 {
-  "name": "ConnectableInfrastructure",
-  "version": "2.0.1",
+  "name": "TidyFactory",
+  "version": "0.0.0",
   
-  "title": "[Beta] Connectable Infrastructure",
-  "description": "You won't be troubled by electric poles when spread machines anymore. This mod enable electrical equipments to connect other equipments directry.",
-  
+  "title": "Tidy Factory",
+  "description": "This mod enable electrical equipments to connect other equipments directry. You don't need to put electric poles between machines to spread machines anymore.",
+
   "author": "ryogak",
   "contact": "https://github.com/RyogaK",
   "dependencies": ["base"],
-  "factorio_version": "0.17"
+  "factorio_version": "0.0"
 }

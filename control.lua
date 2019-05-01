@@ -1,23 +1,24 @@
+function is_target(candidate)
+  return candidate.electric_output_flow_limit ~= nil
+end
+
 function target_entities(surface) 
   local entities = {}
-  for _, v in surface.find_entities() do
-    if v.electric_output_flow_limit ~= nil then
+  for _, v in pairs(surface.find_entities()) do
+    if is_target(v) then
       table.insert(entities, v)
     end
   end
+  return entities
 end
 
 function exist_target_entities(surface) 
-  for _, v in surface.find_entities() do
-    if v.electric_output_flow_limit ~= nil then
+  for _, v in pairs(surface.find_entities()) do
+    if is_target(v) then
       return true
     end
   end
   return false
-end
-
-function is_target(candidate)
-  return candidate.electric_output_flow_limit ~= nil
 end
 
 script.on_event(defines.events.on_built_entity, function(event)
@@ -32,11 +33,11 @@ end)
 script.on_configuration_changed(function(data)
   local destroyed_poles = 0
   local added_poles = 0
-  for i, surface in pairs (game.surfaces) do
+  for _, surface in pairs (game.surfaces) do
     local pole_entities = surface.find_entities_filtered{name='tf-pole'}
     if pole_entities then
       -- game.print ('pole_entities '..#pole_entities)
-      for j, pole_entity in pairs (pole_entities) do
+      for _, pole_entity in pairs (pole_entities) do
         if not exist_target_entities(surface) then
           destroyed_poles = destroyed_poles + 1
           pole_entity.destroy()
@@ -46,7 +47,7 @@ script.on_configuration_changed(function(data)
     local entities = target_entities(surface)
     if entities then
       -- game.print ('entities '..#entities)
-      for j, entity in pairs (entities) do
+      for _, entity in pairs (entities) do
         if surface.count_entities_filtered{name='tf-pole', area=entity.bounding_box, limit = 1} == 0 then
           -- game.print ('adding poles to '..entity.name)
           added_poles = added_poles + 1

@@ -1,4 +1,4 @@
-local pole_name = 'ci-pole'
+local pole_name = 'tf-pole'
 
 data:extend(
 {

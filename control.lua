@@ -33,7 +33,7 @@ script.on_configuration_changed(function(data)
   local destroyed_poles = 0
   local added_poles = 0
   for i, surface in pairs (game.surfaces) do
-    local pole_entities = surface.find_entities_filtered{name='ci-pole'}
+    local pole_entities = surface.find_entities_filtered{name='tf-pole'}
     if pole_entities then
       -- game.print ('pole_entities '..#pole_entities)
       for j, pole_entity in pairs (pole_entities) do
@@ -47,7 +47,7 @@ script.on_configuration_changed(function(data)
     if entities then
       -- game.print ('entities '..#entities)
       for j, entity in pairs (entities) do
-        if surface.count_entities_filtered{name='ci-pole', area=entity.bounding_box, limit = 1} == 0 then
+        if surface.count_entities_filtered{name='tf-pole', area=entity.bounding_box, limit = 1} == 0 then
           -- game.print ('adding poles to '..entity.name)
           added_poles = added_poles + 1
           spam_poles (entity)
@@ -56,7 +56,7 @@ script.on_configuration_changed(function(data)
     end
   end
   if (added_poles+destroyed_poles) > 0 then
-    game.print ('SS migration: added poles to '..added_poles..' entities, removed '..destroyed_poles..' poles without entities')
+    -- game.print ('TF migration: added poles to '..added_poles..' entities, removed '..destroyed_poles..' poles without entities')
   end
 end)
 
@@ -72,14 +72,14 @@ function spam_poles (entity)
   for y = lt_y, rb_y do
     for x = lt_x, rb_x do
       if y == lt_y or y == rb_y or x == lt_x or x == rb_x then 
-        entity.surface.create_entity{name = 'ci-pole', position = {x=x, y=y}, force = entity.force}
+        entity.surface.create_entity{name = 'tf-pole', position = {x=x, y=y}, force = entity.force}
         is_placed = true
         -- game.print ('x='..x..' y='..y)
       end
     end
   end
   if not is_placed then
-    surface.create_entity{name = 'ci-pole', position = entity.position, force = entity.force}
+    surface.create_entity{name = 'tf-pole', position = entity.position, force = entity.force}
   end
 end
 
@@ -102,12 +102,12 @@ function onMinedHandler(entity)
     local surface = entity.surface
     local position = entity.position
     -- game.print ('position: '.. serpent.line (position))
-    local pole_entity = surface.find_entity('ci-pole', position)
+    local pole_entity = surface.find_entity('tf-pole', position)
     if pole_entity then 
       -- game.print ('b position: '.. serpent.line (pole_entity.position))
       pole_entity.destroy()
     else
-      local pole_entities = surface.find_entities_filtered({name = 'ci-pole', area = entity.bounding_box})
+      local pole_entities = surface.find_entities_filtered({name = 'tf-pole', area = entity.bounding_box})
       if pole_entities then
         -- game.print ('amount: '.. (#pole_entities))
         for i, pole in pairs (pole_entities) do

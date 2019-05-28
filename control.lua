@@ -13,7 +13,7 @@ function target_entities(surface)
 end
 
 function exist_target_entities(surface) 
-  for _, v in pairs(surface.find_entities()) do
+  for _, v in pairs(surface.find_entities()) do -- FIXME: Filter out tf-pole
     if is_target(v) then
       return true
     end

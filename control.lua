@@ -38,7 +38,7 @@ script.on_configuration_changed(function(data)
     if pole_entities then
       -- game.print ('pole_entities '..#pole_entities)
       for _, pole_entity in pairs (pole_entities) do
-        if not exist_target_entities(surface) then
+        if not exist_target_entities(surface) then -- FIXME: Search the entity at the position of pole_entity instead of whole surface.
           destroyed_poles = destroyed_poles + 1
           pole_entity.destroy()
         end

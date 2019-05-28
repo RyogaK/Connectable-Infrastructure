@@ -4,7 +4,7 @@ end
 
 function target_entities(surface) 
   local entities = {}
-  for _, v in pairs(surface.find_entities()) do
+  for _, v in pairs(surface.find_entities()) do -- FIXME: Filter out tf-pole
     if is_target(v) then
       table.insert(entities, v)
     end

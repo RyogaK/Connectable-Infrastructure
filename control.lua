@@ -1,10 +1,10 @@
 function is_target(candidate)
-  return candidate.electric_output_flow_limit ~= nil
+  return candidate.electric_output_flow_limit ~= nil -- FIXME: Check whether it is not tf-pole
 end
 
 function target_entities(surface) 
   local entities = {}
-  for _, v in pairs(surface.find_entities()) do
+  for _, v in pairs(surface.find_entities()) do -- FIXME: Filter out tf-pole
     if is_target(v) then
       table.insert(entities, v)
     end
@@ -13,7 +13,7 @@ function target_entities(surface)
 end
 
 function exist_target_entities(surface) 
-  for _, v in pairs(surface.find_entities()) do
+  for _, v in pairs(surface.find_entities()) do -- FIXME: Filter out tf-pole
     if is_target(v) then
       return true
     end
@@ -38,7 +38,7 @@ script.on_configuration_changed(function(data)
     if pole_entities then
       -- game.print ('pole_entities '..#pole_entities)
       for _, pole_entity in pairs (pole_entities) do
-        if not exist_target_entities(surface) then
+        if not exist_target_entities(surface) then -- FIXME: Search the entity at the position of pole_entity instead of whole surface.
           destroyed_poles = destroyed_poles + 1
           pole_entity.destroy()
         end

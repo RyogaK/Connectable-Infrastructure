@@ -4,7 +4,7 @@ end
 
 function target_entities(surface) 
   local entities = {}
-  for _, v in pairs(surface.find_entities()) do -- FIXME: Filter out tf-pole
+  for _, v in pairs(surface.find_entities_filtered{name='tf-pole', invert=true}) do
     if is_target(v) then
       table.insert(entities, v)
     end
@@ -13,7 +13,7 @@ function target_entities(surface)
 end
 
 function exist_target_entities(surface) 
-  for _, v in pairs(surface.find_entities()) do -- FIXME: Filter out tf-pole
+  for _, v in pairs(surface.find_entities_filtered{name='tf-pole', invert=true}) do
     if is_target(v) then
       return true
     end
@@ -35,19 +35,19 @@ script.on_configuration_changed(function(data)
   local added_poles = 0
   for _, surface in pairs (game.surfaces) do
     local pole_entities = surface.find_entities_filtered{name='tf-pole'}
+    local other_entities = target_entities(surface)
     if pole_entities then
       -- game.print ('pole_entities '..#pole_entities)
       for _, pole_entity in pairs (pole_entities) do
-        if not exist_target_entities(surface) then -- FIXME: Search the entity at the position of pole_entity instead of whole surface.
+        if other_entities then -- FIXME: Search the entity at the position of pole_entity instead of whole surface.
           destroyed_poles = destroyed_poles + 1
           pole_entity.destroy()
         end
       end
     end
-    local entities = target_entities(surface)
-    if entities then
+    if other_entities then
       -- game.print ('entities '..#entities)
-      for _, entity in pairs (entities) do
+      for _, entity in pairs (other_entities) do
         if surface.count_entities_filtered{name='tf-pole', area=entity.bounding_box, limit = 1} == 0 then
           -- game.print ('adding poles to '..entity.name)
           added_poles = added_poles + 1

@@ -80,7 +80,7 @@ function spam_poles (entity)
     end
   end
   if not is_placed then
-    surface.create_entity{name = 'tf-pole', position = entity.position, force = entity.force}
+    entity.surface.create_entity{name = 'tf-pole', position = entity.position, force = entity.force}
   end
 end
 
